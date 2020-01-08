@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+    <style>
+      .typing {
+        width: 33em;
+        height: 28px;
+        font-size: 24px;
+        position: relative;
+        animation: text infinite 10s steps(66, end), blink-caret infinite 0.75s step-end;
+        overflow: hidden;
+        word-break: break-all;
+        /*设置等宽字体*/
+        font-family: Consolas, Monaco, monospace;
+      }
+      @keyframes blink-caret {
+        from, to { box-shadow: 1px 0 0 0 transparent; }
+        50% { box-shadow: 1px 0 0 0; }
+      }
+      @keyframes text {
+        from {
+          width: 0;
+        }
+        to {
+          width: 33em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="typing">
+        这是一个打印机，试试效果怎么样，听说兼容英文，let`s have a try
+      </div>
+    </div>
+  </body>
+</html>
