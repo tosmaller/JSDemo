@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <style>
+      p {
+        margin: 0;
+      }
+      #app {
+        display: flex;
+        flex: 1;
+        position: relative;
+      }
+      .left, .right, .tips {
+        min-height: 300px;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        border: 1px dashed #d3d3d3;
+      }
+      .tips {
+        border: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+      }
+      .item {
+        transition: all 1s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="left">
+        <p v-for="(item, index) in leftData" :key="index" ref="leftCheck" :id="item.value" class="item">
+          <input type="checkbox" name="item.value" v-model="item.checked" />
+          {{item.value}}
+        </p>
+      </div>
+      <p class="tips" @click="setData">
+        =>
+      </p>
+      <div class="right">
+        <p v-for="(item, index) in rightData" :key="index">
+          <input type="checkbox" name="item.value" />
+          {{item.value}}
+        </p>
+      </div>
+    </div>
+    <script>
+      var VueModel = new Vue({
+        el: '#app',
+        data: {
+          leftData: new Array(20
+            ).fill({}).map((item, index) => ({ value: `value${index}`, checked: false })),
+          rightData: [],
+        },
+        methods: {
+          setData() {
+            const indexs = []
+            const styles = []
+            // 获取勾选中项, 获取元素位置信息
+            this.leftData.forEach((item, index) => {
+              if (item.checked) {
+                indexs.push(index)
+              }
+              styles.push(`
+                position: absolute;
+                left: ${this.$refs.leftCheck[index].offsetLeft}px;
+                top: ${this.$refs.leftCheck[index].offsetTop}px
+              `)
+            })
+            // 转化为绝对定位布局
+            this.leftData.forEach((item, index) => {
+              this.$refs.leftCheck[index].setAttribute('style', styles[index])
+            })
+            this.$nextTick(() => {
+              const allSelect = Promise.all(indexs.map((item, index) => {
+                return new Promise((resolve, reject) => {
+                  this.$refs.leftCheck[item].style.left = `${this.$refs.leftCheck[index].offsetLeft + 601}px`
+                  this.$refs.leftCheck[item].style.top = `${(this.rightData.length + index) * 21 + 1}px` // 可能加多个，需要加上可能个数
+                  resolve(this.leftData[item])
+                })
+              }))
+              allSelect.then(res => {
+                setTimeout(() => {
+                  this.rightData.push(...res)
+                  this.leftData = this.leftData.filter((item, index) => !indexs.includes(index))
+                  this.leftData.forEach((item, index) => {
+                    this.$refs.leftCheck[index].style = ''
+                  })
+                }, 1000)
+
+              })
+            })
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
