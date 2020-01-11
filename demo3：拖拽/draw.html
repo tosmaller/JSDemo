@@ -29,6 +29,7 @@
       const mouseOver = (event) => {
         // 这里使用pageX 跟 pageY
         if (event.pageY >= 50 && event.pageY <= document.body.offsetHeight - 50 && event.pageX >= 50 && event.pageX <= document.body.offsetWidth - 50) {
+          // 拖拽轨迹，思路为不断创建div, 不断销毁
           const div = document.createElement('div')
           div.id = Date.now()
           div.style = `${style}top: ${event.pageY - 50 }px; left: ${event.pageX - 50}px;`
