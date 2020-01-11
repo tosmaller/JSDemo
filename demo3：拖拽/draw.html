@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>拖拽页面</title>
+    <style>
+    html, body {
+      height: 100%;
+    }
+    #app {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ff0000;
+      border: 1px solid #d3d3d3;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+
+    </div>
+    <script>
+      const app = document.querySelector('#app')
+      let style = `width: 100px;height: 100px;border-radius: 50%;background-color: #ff0000;border: 1px solid #d3d3d3;position: absolute;transition: all 2s;opactity: 1;`
+      const mouseOver = (event) => {
+        // 这里使用pageX 跟 pageY
+        if (event.pageY >= 50 && event.pageY <= document.body.offsetHeight - 50 && event.pageX >= 50 && event.pageX <= document.body.offsetWidth - 50) {
+          const div = document.createElement('div')
+          div.id = Date.now()
+          div.style = `${style}top: ${event.pageY - 50 }px; left: ${event.pageX - 50}px;`
+          document.body.appendChild(div)
+          // 思路1： 使用css3过渡，直接设置为透明度0并且移除元素,轨迹动画流畅但过渡效果不明显，效果类似弹簧
+          setTimeout(() => {
+            div.style.opacity = 0
+            document.body.removeChild(div)
+          }, 100)
+          // 思路2： 延时器设置透明度，获得更柔和的过渡效果，但减低了流畅度
+          // let opacity = 0.8
+          // const setTimer = () => {
+          //   opacity -= 0.2
+          //   const timer = setTimeout(() => {
+          //     if (opacity <= 0) {
+          //       clearTimeout(timer)
+          //       document.body.removeChild(div)
+          //     } else {
+          //       div.style.opacity = opacity
+          //       setTimer()
+          //     }
+          //   }, 100)
+          // }
+          // setTimer()
+          // 思路2 end
+          app.style = `position: absolute;top: ${event.pageY - 50 }px; left: ${event.pageX - 50}px;`
+        }
+      }
+      app.addEventListener('mousedown', (event) => {
+        event.target.setAttribute('style', `position: absolute;top: ${event.target.offsetTop}px; left: ${event.target.offsetLeft}px;`)
+        document.addEventListener('mousemove', mouseOver)
+      })
+      document.querySelector('#app').addEventListener('mouseup', () => {
+        document.removeEventListener('mousemove', mouseOver)
+
+      })
+    </script>
+  </body>
+</html>
