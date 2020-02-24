@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>仿知乎广告切换</title>
+    <style>
+      .app {
+        height: 411px;
+        width: 658px;
+        overflow: hidden;
+        z-index: 1;
+        position: absolute;
+        top: 8px;
+        left: 8px;
+      }
+      img {
+        height: 411px;
+        width: 658px;
+      }
+      .over {
+        overflow: hidden;
+        width: 658px;
+        height: 658px;
+        /*animation: over 2s ease-out 10;*/
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-top-left-radius: 0%;
+      }
+      .content {
+        width: 658px;
+        height: 411px;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      @keyframes over {
+        form {
+          border-top-left-radius: 0%;
+        }
+        50% {
+          border-top-left-radius: 100%;
+        }
+        to {
+          border-top-left-radius: 0%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <img src="./ad1.jpg" alt="">
+      <div class="over">
+        <div class="content">
+          <img src="./ad2.jpg" alt="">
+        </div>
+      </div>
+    </div>
+    <script>
+    </script>
+  </body>
+</html>

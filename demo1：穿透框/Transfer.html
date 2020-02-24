@@ -36,7 +36,7 @@
   </head>
   <body>
     <div id="app">
-      <div class="left">
+      <div class="left" :style="{'min-height': `${leftData.length * 21}px`}">
         <p v-for="(item, index) in leftData" :key="index" ref="leftCheck" :id="item.value" class="item">
           <input type="checkbox" name="item.value" v-model="item.checked" />
           {{item.value}}
